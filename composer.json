@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Aw3r1se\\TelegraphAssistant\\Providers\\TelegraphAssistant"
+                "Aw3r1se\\TelegraphAssistant\\Providers\\TelegraphAssistantServiceProvider"
             ]
         }
     },
