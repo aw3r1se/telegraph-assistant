@@ -7,6 +7,7 @@ use Aw3r1se\TelegraphAssistant\Exceptions\IncorrectMethodWebhookHandler;
 use Aw3r1se\TelegraphAssistant\Exceptions\IncorrectWebhookHandler;
 use Aw3r1se\TelegraphAssistant\Exceptions\InvalidTelegraphRouteFile;
 use Aw3r1se\TelegraphAssistant\Http\Webhooks\WebhookHandler;
+use Illuminate\Support\Facades\Storage;
 
 class TelegraphRouteService
 {
@@ -23,6 +24,10 @@ class TelegraphRouteService
     public function register(string $path): void
     {
         if ($this->router->isNotEmpty()) {
+            return;
+        }
+
+        if (!Storage::exists($path)) {
             return;
         }
 
