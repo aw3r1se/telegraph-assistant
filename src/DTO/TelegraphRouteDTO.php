@@ -8,13 +8,12 @@ class TelegraphRouteDTO
 
     protected ?string $handler;
 
-    protected ?string $method;
+    protected ?string $method = null;
 
     /**
-     * @param string $command
      * @return string
      */
-    public function getCommand(string $command): string
+    public function getCommand(): string
     {
         return $this->command;
     }
@@ -58,10 +57,10 @@ class TelegraphRouteDTO
     }
 
     /**
-     * @param string $method
+     * @param string|null $method
      * @return $this
      */
-    public function setMethod(string $method): static
+    public function setMethod(?string $method = null): static
     {
         $this->method = $method;
 

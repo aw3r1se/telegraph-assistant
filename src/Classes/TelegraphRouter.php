@@ -25,13 +25,13 @@ class TelegraphRouter
     /**
      * @param string $command
      * @param string $handler_class
-     * @param string $handler_method
+     * @param string|null $handler_method
      * @return void
      */
     public function add(
         string $command,
         string $handler_class,
-        string $handler_method
+        ?string $handler_method = null
     ): void {
         $dto = new TelegraphRouteDTO();
         $dto->setCommand($command)

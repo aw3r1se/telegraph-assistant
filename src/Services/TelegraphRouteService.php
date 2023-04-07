@@ -46,8 +46,12 @@ class TelegraphRouteService
     public function forward(string $command, array $arguments): void
     {
         $route = $this->router->findByCommand($command);
+        $handler = $route->getHandler();
         $method = $route->getMethod();
-        app($route->getHandler())->$method($arguments);
+
+        $method
+            ? app($handler)->$method($arguments)
+            : app()->call($handler);
     }
 
     public function middleware(): static
@@ -59,21 +63,29 @@ class TelegraphRouteService
 
     /**
      * @param string $command
-     * @param array<string> $action
+     * @param array|string $action
      * @return void
      * @throws IncorrectMethodWebhookHandler
      * @throws IncorrectWebhookHandler
      */
-    public function handle(string $command, array $action): void
+    public function handle(string $command, mixed $action): void
     {
-        if (!is_subclass_of($action[0], WebhookHandler::class)) {
+        $handler = is_array($action)
+            ? $action[0]
+            : $action;
+
+        $method = is_array($action)
+            ? $action[1]
+            : null;
+
+        if (!is_subclass_of($handler, WebhookHandler::class)) {
             throw new IncorrectWebhookHandler();
         }
 
-        if (!method_exists($action[0], $action[1])) {
+        if ($method && !method_exists($handler, $method)) {
             throw new IncorrectMethodWebhookHandler();
         }
 
-        $this->router->add($command, $action[0], $action[1]);
+        $this->router->add($command, $handler, $method);
     }
 }
