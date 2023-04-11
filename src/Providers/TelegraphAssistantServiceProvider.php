@@ -2,6 +2,7 @@
 
 namespace Aw3r1se\TelegraphAssistant\Providers;
 
+use Aw3r1se\TelegraphAssistant\Classes\TelegraphRouter;
 use Aw3r1se\TelegraphAssistant\Facades\TelegraphRoute;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +22,7 @@ class TelegraphAssistantServiceProvider extends ServiceProvider
             'telegraph_assistant',
         );
 
+        $this->app->singleton(TelegraphRouter::class);
         TelegraphRoute::register(config('telegraph_assistant.route_path'));
     }
 }
