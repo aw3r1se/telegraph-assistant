@@ -78,11 +78,11 @@ abstract class WebhookHandler
         $command = (string) $text->after('/')->before(' ')->before('@');
         $parameter = (string) $text->after('@')->after(' ');
 
-        if (!$this->canHandle($command)) {
-            $this->handleUnknownCommand($text);
-
-            return;
-        }
+//        if (!$this->canHandle($command)) {
+//            $this->handleUnknownCommand($text);
+//
+//            return;
+//        }
 
         TelegraphRoute::forward($command, $parameter);
     }
