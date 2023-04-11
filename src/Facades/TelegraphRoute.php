@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @TelegraphRoute
  * @method static void register(string $path)
- * @method static void forward(string $command, array $arguments)
+ * @method static void forward(string $command, string $arguments)
  * @method static static middleware(string $constraint)
  * @method void handle(string $command, mixed $action)
  */

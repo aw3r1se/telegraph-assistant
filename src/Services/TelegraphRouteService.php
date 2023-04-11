@@ -40,10 +40,10 @@ class TelegraphRouteService
 
     /**
      * @param string $command
-     * @param array $arguments
+     * @param string $arguments
      * @return void
      */
-    public function forward(string $command, array $arguments): void
+    public function forward(string $command, string $arguments): void
     {
         $route = $this->router->findByCommand($command);
         $handler = $route->getHandler();
