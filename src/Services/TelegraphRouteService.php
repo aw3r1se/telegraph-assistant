@@ -68,7 +68,7 @@ class TelegraphRouteService
      * @throws IncorrectMethodWebhookHandler
      * @throws IncorrectWebhookHandler
      */
-    public function handle(string $command, mixed $action): void
+    public function handle(string $command, mixed $action = null): void
     {
         $handler = is_array($action)
             ? $action[0]
