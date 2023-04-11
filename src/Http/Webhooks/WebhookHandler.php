@@ -146,7 +146,7 @@ abstract class WebhookHandler
         }
 
         $route = $this->router->findByCommand($action);
-        if ($route) {
+        if (is_null($route)) {
             return false;
         }
 
