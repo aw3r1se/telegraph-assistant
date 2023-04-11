@@ -3,7 +3,6 @@
 namespace Aw3r1se\TelegraphAssistant\Services;
 
 use Aw3r1se\TelegraphAssistant\Classes\TelegraphRouter;
-use Aw3r1se\TelegraphAssistant\DTO\TelegraphRouteDTO;
 use Aw3r1se\TelegraphAssistant\Exceptions\IncorrectMethodWebhookHandler;
 use Aw3r1se\TelegraphAssistant\Exceptions\InvalidTelegraphRouteFile;
 use ReflectionMethod;
@@ -60,12 +59,20 @@ class TelegraphRouteService
 
     /**
      * @param string $command
-     * @return TelegraphRouteDTO
+     * @param string $arguments
+     * @return void
      */
-    public function forwardTo(string $command): TelegraphRouteDTO
+    public function forward(string $command, string $arguments): void
     {
-        return $this->router
+        $route = $this->router
             ->findByCommand($command);
+
+        $handler = $route->getHandler();
+        $method = $route->getMethod();
+
+        $method
+            ? app($handler)->$method($arguments)
+            : app()->call($handler);
     }
 
     public function middleware(): static
