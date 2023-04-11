@@ -2,6 +2,7 @@
 
 namespace App\Http\Webhooks;
 
+use Aw3r1se\TelegraphAssistant\Http\Webhooks\WebhookHandler;
 use Illuminate\Support\Stringable;
 
 class BaseWebhookHandler extends WebhookHandler
