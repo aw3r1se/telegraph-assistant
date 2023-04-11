@@ -43,13 +43,13 @@ class TelegraphRouter
 
     /**
      * @param string $name
-     * @return TelegraphRouteDTO
+     * @return TelegraphRouteDTO|null
      */
-    public function findByCommand(string $name): TelegraphRouteDTO
+    public function findByCommand(string $name): ?TelegraphRouteDTO
     {
         return $this->route_collection
             ->filter(function (TelegraphRouteDTO $dto) use ($name) {
                 return $dto->getCommand() == $name;
-            })->firstOrFail();
+            })->first();
     }
 }
