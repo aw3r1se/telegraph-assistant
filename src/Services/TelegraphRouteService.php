@@ -52,9 +52,9 @@ class TelegraphRouteService
 
         Log::debug('test');
 
-        $method
-            ? app($handler)->$method($arguments)
-            : app()->call($handler);
+//        $method
+//            ? app($handler)->$method($arguments)
+//            : app()->call($handler);
     }
 
     public function middleware(): static
