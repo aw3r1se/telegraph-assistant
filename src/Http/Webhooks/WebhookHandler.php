@@ -3,6 +3,7 @@
 namespace Aw3r1se\TelegraphAssistant\Http\Webhooks;
 
 use Aw3r1se\TelegraphAssistant\Facades\TelegraphRoute;
+use Illuminate\Support\Facades\Log;
 use ReflectionException;
 use ReflectionMethod;
 
@@ -15,6 +16,7 @@ class WebhookHandler extends \DefStudio\Telegraph\Handlers\WebhookHandler
      */
     public function __call(string $name, array $arguments): void
     {
+        Log::debug('call');
         TelegraphRoute::forward($name, $arguments);
     }
 
@@ -25,6 +27,7 @@ class WebhookHandler extends \DefStudio\Telegraph\Handlers\WebhookHandler
      */
     public static function __callStatic(string $name, array $arguments): void
     {
+        Log::debug('callStatic');
         TelegraphRoute::forward($name, $arguments);
     }
 
