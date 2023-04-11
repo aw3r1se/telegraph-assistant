@@ -58,7 +58,7 @@ abstract class BaseWebhookHandler
         /** @var string $action */
         $action = $this->callbackQuery?->data()->get('action') ?? '';
 
-        if (!$this->canHandle($action)) {
+        if (!TelegraphRoute::hasRoute($action)) {
             report(TelegramWebhookException::invalidAction($action));
             $this->reply(__('telegraph::errors.invalid_action'));
 
@@ -73,13 +73,12 @@ abstract class BaseWebhookHandler
         $command = (string) $text->after('/')->before(' ')->before('@');
         $parameter = (string) $text->after('@')->after(' ');
 
-        if (!$this->canHandle($command)) {
+        if (!TelegraphRoute::hasRoute($command)) {
             $this->handleUnknownCommand($text);
 
             return;
         }
 
-        //$this->$command($parameter);
         TelegraphRoute::forward($command, $parameter);
     }
 
@@ -128,24 +127,6 @@ abstract class BaseWebhookHandler
         }
 
         $this->handleChatMessage($text);
-    }
-
-    protected function canHandle(string $action): bool
-    {
-        if ($action === 'handle') {
-            return false;
-        }
-
-//        if (!method_exists($this, $action)) {
-//            return false;
-//        }
-
-//        $reflector = new ReflectionMethod($this::class, $action);
-//        if (!$reflector->isPublic()) {
-//            return false;
-//        }
-
-        return true;
     }
 
     protected function extractCallbackQueryData(): void

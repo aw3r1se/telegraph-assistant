@@ -7,8 +7,8 @@ use Aw3r1se\TelegraphAssistant\Exceptions\IncorrectMethodWebhookHandler;
 use Aw3r1se\TelegraphAssistant\Exceptions\IncorrectWebhookHandler;
 use Aw3r1se\TelegraphAssistant\Exceptions\InvalidTelegraphRouteFile;
 use Aw3r1se\TelegraphAssistant\Http\Webhooks\WebhookHandler;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use ReflectionMethod;
+use Throwable;
 
 class TelegraphRouteService
 {
@@ -34,9 +34,33 @@ class TelegraphRouteService
 
         try {
             include_once $path;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             throw new InvalidTelegraphRouteFile();
         }
+    }
+
+    /**
+     * @param string $command
+     * @return bool
+     */
+    public function hasRoute(string $command): bool
+    {
+        try {
+            $route = $this->router
+                ->findByCommand($command);
+
+            $reflector = new ReflectionMethod(
+                $route->getHandler(),
+                $route->getMethod(),
+            );
+            if (!$reflector->isPublic()) {
+                return false;
+            }
+        } catch (Throwable) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -46,7 +70,9 @@ class TelegraphRouteService
      */
     public function forward(string $command, string $arguments): void
     {
-        $route = $this->router->findByCommand($command);
+        $route = $this->router
+            ->findByCommand($command);
+
         $handler = $route->getHandler();
         $method = $route->getMethod();
 
