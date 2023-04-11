@@ -19,6 +19,16 @@ class WebhookHandler extends \DefStudio\Telegraph\Handlers\WebhookHandler
     }
 
     /**
+     * @param string $name
+     * @param array $arguments
+     * @return void
+     */
+    public static function __callStatic(string $name, array $arguments): void
+    {
+        TelegraphRoute::forward($name, $arguments);
+    }
+
+    /**
      * @param string $action
      * @return bool
      * @throws ReflectionException
