@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void register(string $path)
  * @method static void forward(string $command, array $arguments)
  * @method static static middleware(string $constraint)
- * @method void handle(string $command, mixed $action)
+ * @method void handle(string $command, mixed $action = null)
  */
 class TelegraphRoute extends Facade
 {
