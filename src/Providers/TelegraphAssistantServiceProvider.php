@@ -15,6 +15,16 @@ class TelegraphAssistantServiceProvider extends ServiceProvider
                 __DIR__ . '/../../routes/telegraph.php' =>
                     base_path('routes/telegraph.php'),
             ], 'routes');
+
+            $this->publishes([
+                __DIR__ . '/../Http/Webhooks/stubs/BaseWebhookHandler.stub' =>
+                    app_path('Http/Webhooks/BaseWebhookHandler.php')
+            ], 'handlers');
+
+            $this->publishes([
+                __DIR__ . '/../../config/telegraph_assistant.php' =>
+                    config_path('telegraph_assistant.php'),
+            ], 'config');
         }
 
         $this->mergeConfigFrom(

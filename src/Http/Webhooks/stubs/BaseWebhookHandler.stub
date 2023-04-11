@@ -1,6 +1,6 @@
 <?php
 
-namespace Aw3r1se\TelegraphAssistant\Http\Webhooks;
+namespace App\Http\Webhooks;
 
 use Illuminate\Support\Stringable;
 

@@ -91,6 +91,7 @@ abstract class WebhookHandler
     protected function callHandler(TelegraphRouteDTO $route, ?string $parameter = null): void
     {
         $method = $route->getMethod();
+
         /** @var WebhookHandler $handler */
         $handler = new ($route->getHandler())();
         $handler->bot = $this->bot;
