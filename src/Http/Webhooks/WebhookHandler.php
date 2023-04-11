@@ -4,7 +4,7 @@ namespace Aw3r1se\TelegraphAssistant\Http\Webhooks;
 
 use Aw3r1se\TelegraphAssistant\Facades\TelegraphRoute;
 
-abstract class WebhookHandler extends \DefStudio\Telegraph\Handlers\WebhookHandler
+class WebhookHandler extends \DefStudio\Telegraph\Handlers\WebhookHandler
 {
     /**
      * @param string $name
