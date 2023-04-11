@@ -74,7 +74,6 @@ abstract class BaseWebhookHandler
         $parameter = (string) $text->after('@')->after(' ');
 
         if (!$this->canHandle($command)) {
-            Log::debug('xxx');
             $this->handleUnknownCommand($text);
 
             return;

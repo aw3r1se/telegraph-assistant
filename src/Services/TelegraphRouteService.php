@@ -46,11 +46,11 @@ class TelegraphRouteService
      */
     public function forward(string $command, string $arguments): void
     {
+        Log::debug('test');
+
         $route = $this->router->findByCommand($command);
         $handler = $route->getHandler();
         $method = $route->getMethod();
-
-        Log::debug('test');
 
 //        $method
 //            ? app($handler)->$method($arguments)
