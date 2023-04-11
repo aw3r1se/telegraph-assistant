@@ -78,11 +78,7 @@ abstract class WebhookHandler
             return;
         }
 
-        $route = TelegraphRoute::forwardTo($command);
-        $handler = $route->getHandler();
-        $method = $route->getMethod();
-
-        $handler->$method();
+        $this->$command($parameter);
     }
 
     protected function handleUnknownCommand(Stringable $text): void
