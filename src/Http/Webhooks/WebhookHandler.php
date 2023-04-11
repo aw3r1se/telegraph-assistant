@@ -3,6 +3,7 @@
 namespace Aw3r1se\TelegraphAssistant\Http\Webhooks;
 
 use Aw3r1se\TelegraphAssistant\Classes\TelegraphRouter;
+use Aw3r1se\TelegraphAssistant\Facades\TelegraphRoute;
 use DefStudio\Telegraph\DTO\CallbackQuery;
 use DefStudio\Telegraph\DTO\Chat;
 use DefStudio\Telegraph\DTO\InlineQuery;
@@ -83,7 +84,7 @@ abstract class WebhookHandler
             return;
         }
 
-        $this->$command($parameter);
+        TelegraphRoute::forward($command, $parameter);
     }
 
     protected function handleUnknownCommand(Stringable $text): void
