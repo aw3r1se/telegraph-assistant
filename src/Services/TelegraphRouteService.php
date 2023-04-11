@@ -7,6 +7,7 @@ use Aw3r1se\TelegraphAssistant\Exceptions\IncorrectMethodWebhookHandler;
 use Aw3r1se\TelegraphAssistant\Exceptions\IncorrectWebhookHandler;
 use Aw3r1se\TelegraphAssistant\Exceptions\InvalidTelegraphRouteFile;
 use Aw3r1se\TelegraphAssistant\Http\Webhooks\WebhookHandler;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class TelegraphRouteService
@@ -48,6 +49,8 @@ class TelegraphRouteService
         $route = $this->router->findByCommand($command);
         $handler = $route->getHandler();
         $method = $route->getMethod();
+
+        Log::debug('test');
 
         $method
             ? app($handler)->$method($arguments)
