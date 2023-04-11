@@ -28,7 +28,7 @@ class TelegraphRouteService
             return;
         }
 
-        if (!Storage::exists($path)) {
+        if (!file_exists($path)) {
             return;
         }
 
@@ -46,15 +46,13 @@ class TelegraphRouteService
      */
     public function forward(string $command, string $arguments): void
     {
-        Log::debug('test');
-
         $route = $this->router->findByCommand($command);
         $handler = $route->getHandler();
         $method = $route->getMethod();
 
-//        $method
-//            ? app($handler)->$method($arguments)
-//            : app()->call($handler);
+        $method
+            ? app($handler)->$method($arguments)
+            : app()->call($handler);
     }
 
     public function middleware(): static

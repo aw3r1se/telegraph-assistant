@@ -48,7 +48,8 @@ class TelegraphRouter
     public function findByCommand(string $name): TelegraphRouteDTO
     {
         return $this->route_collection
-            ->where(['command' => $name])
-            ->firstOrFail();
+            ->filter(function (TelegraphRouteDTO $dto) use ($name) {
+                return $dto->getCommand() == $name;
+            })->firstOrFail();
     }
 }
