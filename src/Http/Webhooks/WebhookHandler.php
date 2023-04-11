@@ -38,9 +38,9 @@ abstract class WebhookHandler
 
     protected Keyboard $originalKeyboard;
 
-    public function __construct(TelegraphRouter $router)
+    public function __construct()
     {
-        $this->router = $router;
+        $this->router = app(TelegraphRouter::class);
         $this->originalKeyboard = Keyboard::make();
     }
 
