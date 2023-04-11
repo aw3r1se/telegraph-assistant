@@ -70,12 +70,11 @@ abstract class BaseWebhookHandler
 
     private function handleCommand(Stringable $text): void
     {
-        Log::debug('zxc');
-
         $command = (string) $text->after('/')->before(' ')->before('@');
         $parameter = (string) $text->after('@')->after(' ');
 
         if (!$this->canHandle($command)) {
+            Log::debug('xxx');
             $this->handleUnknownCommand($text);
 
             return;
