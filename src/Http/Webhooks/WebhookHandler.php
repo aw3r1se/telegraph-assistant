@@ -78,6 +78,7 @@ abstract class WebhookHandler
         $parameter = (string) $text->after('@')->after(' ');
 
         $route = $this->router->findByCommand($command);
+        Log::debug(json_encode($this->router));
         if (!$route) {
             $this->handleUnknownCommand($text);
 
