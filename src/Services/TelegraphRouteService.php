@@ -32,11 +32,7 @@ class TelegraphRouteService
             return;
         }
 
-        try {
-            include_once $path;
-        } catch (Throwable) {
-            throw new InvalidTelegraphRouteFile();
-        }
+        include_once $path;
     }
 
     /**
@@ -93,7 +89,6 @@ class TelegraphRouteService
      * @param array|string $action
      * @return void
      * @throws IncorrectMethodWebhookHandler
-     * @throws IncorrectWebhookHandler
      */
     public function handle(string $command, mixed $action): void
     {
@@ -104,10 +99,6 @@ class TelegraphRouteService
         $method = is_array($action)
             ? $action[1]
             : null;
-
-        if (!is_subclass_of($handler, WebhookHandler::class)) {
-            throw new IncorrectWebhookHandler();
-        }
 
         if ($method && !method_exists($handler, $method)) {
             throw new IncorrectMethodWebhookHandler();
