@@ -3,7 +3,6 @@
 namespace Aw3r1se\TelegraphAssistant\Http\Webhooks;
 
 use Aw3r1se\TelegraphAssistant\Classes\TelegraphRouter;
-use Aw3r1se\TelegraphAssistant\Facades\TelegraphRoute;
 use DefStudio\Telegraph\DTO\CallbackQuery;
 use DefStudio\Telegraph\DTO\Chat;
 use DefStudio\Telegraph\DTO\InlineQuery;
@@ -46,8 +45,8 @@ abstract class WebhookHandler
     }
 
     /**
-     * @throws ReflectionException
      * @throws TelegramWebhookException
+     * @throws ReflectionException
      */
     private function handleCallbackQuery(): void
     {
@@ -60,12 +59,12 @@ abstract class WebhookHandler
         /** @var string $action */
         $action = $this->callbackQuery?->data()->get('action') ?? '';
 
-        if (!$this->canHandle($action)) {
-            report(TelegramWebhookException::invalidAction($action));
-            $this->reply(__('telegraph::errors.invalid_action'));
-
-            return;
-        }
+//        if (!$this->canHandle($action)) {
+//            report(TelegramWebhookException::invalidAction($action));
+//            $this->reply(__('telegraph::errors.invalid_action'));
+//
+//            return;
+//        }
 
         $this->$action();
     }
@@ -78,13 +77,26 @@ abstract class WebhookHandler
         $command = (string) $text->after('/')->before(' ')->before('@');
         $parameter = (string) $text->after('@')->after(' ');
 
-//        if (!$this->canHandle($command)) {
-//            $this->handleUnknownCommand($text);
-//
-//            return;
-//        }
+        $route = $this->router->findByCommand($command);
+        if (!$route) {
+            $this->handleUnknownCommand($text);
 
-        TelegraphRoute::forward($command, $parameter);
+            return;
+        }
+
+        $method = $route->getMethod();
+        /** @var WebhookHandler $handler */
+        $handler = new ($route->getHandler())();
+        $this->fillHandler($handler);
+
+        $handler->$method($parameter);
+    }
+
+    protected function fillHandler(WebhookHandler $handler): void
+    {
+        $handler->bot = $this->bot;
+        $handler->chat = $this->chat;
+        $handler->message = $this->message;
     }
 
     protected function handleUnknownCommand(Stringable $text): void
@@ -100,9 +112,6 @@ abstract class WebhookHandler
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     private function handleMessage(): void
     {
         $this->extractMessageData();
@@ -146,12 +155,11 @@ abstract class WebhookHandler
             return false;
         }
 
-        $route = $this->router->findByCommand($action);
-        if (is_null($route)) {
+        if (!method_exists($this, $action)) {
             return false;
         }
 
-        $reflector = new ReflectionMethod($route->getHandler(), $route->getMethod());
+        $reflector = new ReflectionMethod($this::class, $action);
         if (!$reflector->isPublic()) {
             return false;
         }
@@ -229,6 +237,9 @@ abstract class WebhookHandler
         $this->chat->html("Chat ID: {$this->chat->chat_id}")->send();
     }
 
+    /**
+     * @throws TelegramWebhookException|ReflectionException
+     */
     public function handle(Request $request, TelegraphBot $bot): void
     {
         $this->bot = $bot;
