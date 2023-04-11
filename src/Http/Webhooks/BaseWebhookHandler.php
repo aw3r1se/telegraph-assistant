@@ -140,10 +140,10 @@ abstract class BaseWebhookHandler
 //            return false;
 //        }
 
-        $reflector = new ReflectionMethod($this::class, $action);
-        if (!$reflector->isPublic()) {
-            return false;
-        }
+//        $reflector = new ReflectionMethod($this::class, $action);
+//        if (!$reflector->isPublic()) {
+//            return false;
+//        }
 
         return true;
     }
