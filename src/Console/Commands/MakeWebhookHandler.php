@@ -24,6 +24,7 @@ class MakeWebhookHandler extends Command
 
         $path = config('telegraph_assistant.webhook_path');
         $contents = $this->replaceNamespaceWith('NamespaceStub', $path, $contents);
+        $contents = $this->replaceParent($contents);
 
         $this->put($path, $name, $contents);
     }
@@ -58,10 +59,7 @@ class MakeWebhookHandler extends Command
         return preg_replace("#$old#ui", $new, $contents);
     }
 
-    protected function replaceParentWith(
-        string $old,
-        string $contents,
-    ): string {
+    protected function replaceParent(string $contents): string {
         $new = config('telegraph.webhook_handler');
         $contents = preg_replace("#StubUse#ui", $new, $contents);
         $basename = class_basename($contents);
