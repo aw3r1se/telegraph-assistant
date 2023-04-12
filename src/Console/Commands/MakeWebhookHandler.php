@@ -86,7 +86,7 @@ class MakeWebhookHandler extends Command
         $basename = class_basename($new);
         $contents = preg_replace("#StubParent#ui", $basename, $contents);
 
-        return preg_replace('#\n{2,}#ui', PHP_EOL, $contents);
+        return preg_replace('#\n{2,}#ui', PHP_EOL . PHP_EOL, $contents);
     }
 
     /**
