@@ -49,9 +49,9 @@ class TelegraphRouteDTO
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMethod(): string
+    public function getMethod(): ?string
     {
         return $this->method;
     }
