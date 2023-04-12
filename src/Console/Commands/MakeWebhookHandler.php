@@ -67,20 +67,7 @@ class MakeWebhookHandler extends Command
     protected function replaceParent(string $contents): string
     {
         $new = config('telegraph.webhook_handler');
-        $contents = preg_match(
-            '#' . preg_quote(
-                preg_replace(
-                    '#\\\[a-z]+$#ui',
-                    '',
-                    $new
-                ),
-                '#'
-            ) . '#ui',
-            $new,
-        )
-            ? preg_replace("#use StubUse;#ui", '', $contents)
-            : preg_replace("#StubUse#ui", $new, $contents);
-
+        $contents = preg_replace("#use StubUse;#ui", '', $contents);
         $contents = preg_replace("#StubUse#ui", $new, $contents);
 
         $basename = class_basename($new);
