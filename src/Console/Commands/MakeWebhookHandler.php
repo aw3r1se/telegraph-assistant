@@ -4,6 +4,7 @@ namespace Aw3r1se\TelegraphAssistant\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class MakeWebhookHandler extends Command
@@ -61,6 +62,10 @@ class MakeWebhookHandler extends Command
 
     protected function replaceParent(string $contents): string {
         $new = config('telegraph.webhook_handler');
+        $contents = preg_match('#' . config('telegraph_assistant.webhook_path') . '#ui', $new)
+            ? preg_replace("#StubUse#ui", '', $contents)
+            : preg_replace("#StubUse#ui", $new, $contents);
+
         $contents = preg_replace("#StubUse#ui", $new, $contents);
         $basename = class_basename($contents);
 
