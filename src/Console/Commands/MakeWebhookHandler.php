@@ -67,7 +67,7 @@ class MakeWebhookHandler extends Command
             : preg_replace("#StubUse#ui", $new, $contents);
 
         $contents = preg_replace("#StubUse#ui", $new, $contents);
-        $basename = class_basename($contents);
+        $basename = class_basename($new);
 
         return preg_replace("#StubParent#ui", $basename, $contents);
     }
