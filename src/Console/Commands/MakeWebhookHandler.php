@@ -60,9 +60,14 @@ class MakeWebhookHandler extends Command
         return preg_replace("#$old#ui", $new, $contents);
     }
 
-    protected function replaceParent(string $contents): string {
+    /**
+     * @param string $contents
+     * @return string
+     */
+    protected function replaceParent(string $contents): string
+    {
         $new = config('telegraph.webhook_handler');
-        $contents = preg_match('#' . config('telegraph_assistant.webhook_path') . '#ui', $new)
+        $contents = preg_match('#' . preg_quote(config('telegraph_assistant.webhook_path'), '#') . '#ui', $new)
             ? preg_replace("#StubUse#ui", '', $contents)
             : preg_replace("#StubUse#ui", $new, $contents);
 
