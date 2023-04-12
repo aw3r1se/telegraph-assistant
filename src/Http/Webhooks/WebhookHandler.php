@@ -92,15 +92,20 @@ abstract class WebhookHandler
     {
         $method = $route->getMethod();
 
-        /** @var WebhookHandler $handler */
         $handler = new ($route->getHandler())();
         $handler->bot = $this->bot;
         $handler->chat = $this->chat;
         $handler->message = $this->message;
 
-        $parameter
-            ? $handler->$method($parameter)
-            : $handler->$method();
+        if ($route->getMethod()) {
+            $parameter
+                ? $handler->$method($parameter)
+                : $handler->$method();
+        } else {
+            $parameter
+                ? $handler($parameter)
+                : $handler();
+        }
     }
 
     protected function handleUnknownCommand(Stringable $text): void
