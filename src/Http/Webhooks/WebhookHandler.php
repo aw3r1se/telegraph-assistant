@@ -97,6 +97,7 @@ abstract class WebhookHandler
         $handler->chat = $this->chat;
         $handler->message = $this->message;
         $handler->data = $this->data;
+        $handler->callbackQuery = $this->callbackQuery;
 
         if ($route->getMethod()) {
             $parameter
